@@ -1,0 +1,81 @@
+services:
+  auth-db:
+    image: postgres:17-alpine
+    container_name: pulse-track-auth-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: auth_service_user
+      POSTGRES_PASSWORD: auth_service_password
+      POSTGRES_DB: auth_service_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U auth_service_user -d auth_service_db"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pulse-track-network
+
+  adminer:
+    image: adminer:latest
+    container_name: pulse-track-adminer
+    restart: unless-stopped
+    ports:
+      - "9000:8080"
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    networks:
+      - pulse-track-network
+
+  redis-session:
+    image: redis:8.6.4-alpine
+    container_name: pulse-track-redis-session
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --maxmemory-policy
+      - noeviction
+    volumes:
+      - redis_session_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pulse-track-network
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: pulse-track-redis-insight
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    depends_on:
+      redis-session:
+        condition: service_healthy
+    volumes:
+      - redis_insight_data:/data
+    networks:
+      - pulse-track-network
+
+volumes:
+  auth_db_data:
+  redis_session_data:
+  redis_insight_data:
+
+networks:
+  pulse-track-network:
+    driver: bridge
