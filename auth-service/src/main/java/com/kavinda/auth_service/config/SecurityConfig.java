@@ -63,6 +63,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
+                        .deleteCookies("SESSION")
                 )
                 // exception handling configuration
                 .exceptionHandling(exception -> exception
