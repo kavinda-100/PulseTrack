@@ -62,7 +62,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl(frontendUrl)
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID")
                         .deleteCookies("SESSION")
                 )
                 // exception handling configuration
