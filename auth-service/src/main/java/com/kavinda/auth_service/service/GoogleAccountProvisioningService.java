@@ -5,6 +5,7 @@ import com.kavinda.auth_service.entity.AppUser;
 import com.kavinda.auth_service.entity.OAuthAccount;
 import com.kavinda.auth_service.entity.OAuthProvider;
 import com.kavinda.auth_service.entity.UserStatus;
+import com.kavinda.auth_service.exceptions.types.ResourceNotFoundException;
 import com.kavinda.auth_service.repository.IAppUserRepository;
 import com.kavinda.auth_service.repository.IOAuthAccountRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,19 @@ public class GoogleAccountProvisioningService {
 
     private final IAppUserRepository appUserRepository;
     private final IOAuthAccountRepository oauthAccountRepository;
+
+    @Transactional
+    public AppUser findGoogleUser(String providerSubject) {
+        return oauthAccountRepository
+                .findByProviderAndProviderSubject(
+                        OAuthProvider.GOOGLE,
+                        providerSubject
+                )
+                .map(OAuthAccount::getUser)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Authenticated user was not found"
+                ));
+    }
 
     @Transactional
     public AppUser provisionGoogleUser(GoogleUserProfile profile) {

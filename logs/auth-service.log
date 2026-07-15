@@ -88,3 +88,57 @@
 2026-07-15T19:43:40.793+05:30  INFO 31532 --- [auth-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-07-15T19:43:40.795+05:30  INFO 31532 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-07-15T19:43:40.796+05:30  INFO 31532 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-07-15T21:18:10.987+05:30  INFO 63506 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Starting AuthServiceApplication using Java 25.0.2 with PID 63506 (/home/kavinda/Documents/code/java/PulseTrack/auth-service/target/classes started by kavinda in /home/kavinda/Documents/code/java/PulseTrack)
+2026-07-15T21:18:10.988+05:30 DEBUG 63506 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-07-15T21:18:10.989+05:30  INFO 63506 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : The following 1 profile is active: "local"
+2026-07-15T21:18:11.617+05:30  INFO 63506 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-15T21:18:11.651+05:30  INFO 63506 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 2 JPA repository interfaces.
+2026-07-15T21:18:12.076+05:30  INFO 63506 --- [auth-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8001 (http)
+2026-07-15T21:18:12.086+05:30  INFO 63506 --- [auth-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-15T21:18:12.086+05:30  INFO 63506 --- [auth-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-15T21:18:12.115+05:30  INFO 63506 --- [auth-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1093 ms
+2026-07-15T21:18:12.245+05:30 DEBUG 63506 --- [auth-service] [main] c.k.auth_service.filters.OAuth2Filter    : Filter 'OAuth2Filter' configured for use
+2026-07-15T21:18:12.367+05:30  INFO 63506 --- [auth-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-15T21:18:12.416+05:30  INFO 63506 --- [auth-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-15T21:18:12.670+05:30  INFO 63506 --- [auth-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-15T21:18:12.692+05:30  INFO 63506 --- [auth-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-15T21:18:12.789+05:30  INFO 63506 --- [auth-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@798b36fd
+2026-07-15T21:18:12.790+05:30  INFO 63506 --- [auth-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-15T21:18:12.829+05:30  INFO 63506 --- [auth-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/auth_service_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.10
+	Default catalog/schema: auth_service_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-15T21:18:13.368+05:30  INFO 63506 --- [auth-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-15T21:18:13.409+05:30  WARN 63506 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-15T21:18:13.410+05:30  WARN 63506 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk4vj92ux8a2eehds1mdvmks473" of relation "app_users" does not exist, skipping
+2026-07-15T21:18:13.414+05:30  WARN 63506 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-15T21:18:13.414+05:30  WARN 63506 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_oauth_provider_subject" of relation "oauth_accounts" does not exist, skipping
+2026-07-15T21:18:13.419+05:30  INFO 63506 --- [auth-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-15T21:18:13.470+05:30  INFO 63506 --- [auth-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-15T21:18:14.515+05:30  INFO 63506 --- [auth-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-07-15T21:18:14.566+05:30  INFO 63506 --- [auth-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8001 (http) with context path '/'
+2026-07-15T21:18:14.572+05:30  INFO 63506 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Started AuthServiceApplication in 3.99 seconds (process running for 4.261)
+2026-07-15T21:18:30.748+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-15T21:18:30.749+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-15T21:18:30.749+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-07-15T21:18:53.307+05:30 DEBUG 63506 --- [auth-service] [http-nio-8001-exec-6] er$RestTemplateWithNimbusDefaultTimeouts : HTTP GET https://www.googleapis.com/oauth2/v3/certs
+2026-07-15T21:18:53.307+05:30 DEBUG 63506 --- [auth-service] [http-nio-8001-exec-6] er$RestTemplateWithNimbusDefaultTimeouts : Accept=[text/plain, application/json, application/*+json, */*]
+2026-07-15T21:18:53.447+05:30 DEBUG 63506 --- [auth-service] [http-nio-8001-exec-6] er$RestTemplateWithNimbusDefaultTimeouts : Response 200 OK
+2026-07-15T21:18:53.447+05:30 DEBUG 63506 --- [auth-service] [http-nio-8001-exec-6] er$RestTemplateWithNimbusDefaultTimeouts : Reading to [java.lang.String] as "application/json;charset=UTF-8"
+2026-07-15T21:18:53.454+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-6] c.k.a.service.CustomOidcUserService      : Loading user for registrationId: google
+2026-07-15T21:18:53.683+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-6] c.k.a.service.CustomOidcUserService      : OidcUser loaded: Name: [102809876415035260683], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=5nsaZAKPHqFjjvxCvqmBbA, sub=102809876415035260683, email_verified=true, iss=https://accounts.google.com, given_name=kavinda, nonce=pnOBfi-KDabixdcI5KPtovUHTohgoJmJ6vMxT1-picg, picture=https://lh3.googleusercontent.com/a/ACg8ocIDFhd553aUKKSdFpIInMInNT5j5G9-9fLQKMDsXGdUc0EYUg=s96-c, aud=[3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com], azp=3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com, name=kavinda rathnayake, exp=2026-07-15T16:48:53Z, family_name=rathnayake, iat=2026-07-15T15:48:53Z, email=kavinda.local.dev@gmail.com}]
+2026-07-15T21:18:53.971+05:30  INFO 63506 --- [auth-service] [http-nio-8001-exec-6] c.k.a.service.CustomOidcUserService      : Google user provisioned: userId=244726b2-4190-4124-8a44-5234d000967b, provider=GOOGLE
+2026-07-15T21:18:53.974+05:30 DEBUG 63506 --- [auth-service] [http-nio-8001-exec-6] .s.o.c.w.OAuth2LoginAuthenticationFilter : Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=Name: [102809876415035260683], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=5nsaZAKPHqFjjvxCvqmBbA, sub=102809876415035260683, email_verified=true, iss=https://accounts.google.com, given_name=kavinda, nonce=pnOBfi-KDabixdcI5KPtovUHTohgoJmJ6vMxT1-picg, picture=https://lh3.googleusercontent.com/a/ACg8ocIDFhd553aUKKSdFpIInMInNT5j5G9-9fLQKMDsXGdUc0EYUg=s96-c, aud=[3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com], azp=3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com, name=kavinda rathnayake, exp=2026-07-15T16:48:53Z, family_name=rathnayake, iat=2026-07-15T15:48:53Z, email=kavinda.local.dev@gmail.com}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=9815C9C5FB7CA9B52025401281DBF648], Granted Authorities=[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]
+2026-07-15T21:23:18.493+05:30  INFO 63506 --- [auth-service] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-15T21:23:18.495+05:30  INFO 63506 --- [auth-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-15T21:23:18.500+05:30  INFO 63506 --- [auth-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-15T21:23:18.501+05:30  INFO 63506 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-15T21:23:18.503+05:30  INFO 63506 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
