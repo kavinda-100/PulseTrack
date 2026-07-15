@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OAuthAccountRepository extends JpaRepository<OAuthAccount, UUID> {
+public interface IOAuthAccountRepository extends JpaRepository<OAuthAccount, UUID> {
     Optional<OAuthAccount> findByProviderAndProviderSubject(
             OAuthProvider provider,
             String providerSubject
