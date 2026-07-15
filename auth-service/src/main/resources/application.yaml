@@ -58,10 +58,14 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${AUTH_SERVICE_URL:http://localhost:8001}/login/oauth2/code/google}
             scope:
               - openid
               - profile
               - email
+        provider:
+          google:
+            issuer-uri: https://accounts.google.com
 
 app:
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
@@ -70,8 +74,8 @@ logging:
   level:
     root: INFO
     com.kavinda: DEBUG
-    org.springframework.security: INFO
     org.springframework.web: INFO
+    org.springframework.security.oauth2: DEBUG
 
   file:
     name: ${LOG_FILE:logs/auth-service.log}
