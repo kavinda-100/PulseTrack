@@ -132,16 +132,18 @@ The Authentication Service is a shared platform service.
 
 Responsibilities:
 
-- Form-based registration and login
-- Google OAuth2 login
-- Password hashing
+- Google OAuth2 and OpenID Connect login
+- Create or update the local user record from the verified Google identity
 - User roles and permissions
 - Redis-backed sessions
-- Session-cookie creation
+- Session-cookie creation after successful Google authentication
 - Logout and session invalidation
 - Session validation for the API Gateway
+- OAuth2 authorization-request and callback handling
 
-Authentication uses opaque Redis-backed sessions rather than JWTs.
+Google is the only supported identity provider for the MVP. PulseTrack does not support local registration, email/password login, password reset, or locally stored passwords.
+
+Authentication uses Google OAuth2/OpenID Connect for identity verification and opaque Redis-backed sessions for application access rather than JWTs.
 
 Suggested roles:
 
@@ -155,6 +157,33 @@ Suggested permissions:
 - `project:update`
 - `project:delete`
 - `analytics:read`
+
+### Google authentication flow
+
+1. The browser starts login through `/oauth2/authorization/google`.
+2. The Authentication Service redirects the user to Google.
+3. Google returns the user to the configured OAuth2 callback endpoint.
+4. The Authentication Service validates the OpenID Connect response.
+5. The service uses Google's stable subject identifier (`sub`) as the external account identifier.
+6. The service creates or updates the corresponding local `users` and `oauth_accounts` records.
+7. Spring Session stores the authenticated session in Redis.
+8. The service sends the opaque session cookie to the browser.
+9. The browser uses that cookie for dashboard and project-management requests.
+10. Logout invalidates the Redis session and clears the browser cookie.
+
+The Google email address is profile data and may be used for display and contact purposes. Account linking must rely on Google's stable subject identifier rather than treating the email address as the permanent provider identifier.
+
+### Auth endpoints
+
+```text
+GET  /oauth2/authorization/google
+GET  /login/oauth2/code/google
+GET  /api/v1/auth/me
+POST /api/v1/auth/logout
+GET  /api/v1/auth/session/validate
+```
+
+There are no local registration, email/password login, password-reset, or password-change endpoints.
 
 ---
 
@@ -667,6 +696,25 @@ user_roles
 role_permissions
 ```
 
+The `users` table stores the local PulseTrack user identity and profile information. It does not contain password hashes or local-login credentials.
+
+The `oauth_accounts` table links a PulseTrack user to their Google identity. Suggested fields include:
+
+```text
+id
+user_id
+provider
+provider_subject
+email
+email_verified
+display_name
+avatar_url
+created_at
+updated_at
+```
+
+For the MVP, `provider` is always `GOOGLE`, and `(provider, provider_subject)` must be unique.
+
 Services must not directly query another service's tables.
 
 Redis is not the source of truth for durable business data.
@@ -739,8 +787,7 @@ src/main/java/com/kavinda/{service}
 src/main/resources
 ├── application.yml
 ├── application-local.yml
-├── application-test.yml
-└── db/migration
+└── application-test.yml
 
 src/test/java/com/kavinda/{service}
 ├── controller
@@ -814,7 +861,7 @@ status
 Do not log:
 
 - Raw API keys
-- Passwords
+- OAuth2 authorization codes
 - OAuth tokens
 - Session cookies
 - Sensitive event properties
@@ -931,9 +978,11 @@ The MVP includes:
 
 ## Authentication and Gateway
 
-- Form login
-- Google OAuth2 login
+- Google OAuth2/OpenID Connect login
+- Automatic local-user provisioning from the verified Google identity
 - Redis-backed session
+- Session-cookie creation after successful OAuth2 login
+- Logout and session invalidation
 - Gateway routing
 - Session validation
 - API-key route support
@@ -1011,10 +1060,12 @@ To keep the project medium rather than highly complex:
 
 ## Phase 1 — Platform foundation
 
-1. Authentication Service
-2. Redis session management
-3. API Gateway
-4. Correlation IDs and common responses
+1. Authentication Service with Google OAuth2/OpenID Connect
+2. Google identity mapping and local-user provisioning
+3. Redis session management
+4. OAuth2 success, failure, and logout flows
+5. API Gateway
+6. Correlation IDs and common responses
 
 ## Phase 2 — Project management
 
@@ -1057,7 +1108,7 @@ To keep the project medium rather than highly complex:
 
 PulseTrack MVP is complete when:
 
-- Users can authenticate and create tracking projects.
+- Users can authenticate with Google and create tracking projects.
 - Projects can generate and revoke API keys.
 - Applications can submit event batches.
 - Invalid keys and malformed events are rejected.
