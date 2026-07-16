@@ -5,5 +5,8 @@ public enum OAuthProvider {
     FACEBOOK,
     GITHUB,
     TWITTER,
-    LINKEDIN
+    LINKEDIN,
+    MICROSOFT,
+    APPLE,
+    UNKNOWN
 }
