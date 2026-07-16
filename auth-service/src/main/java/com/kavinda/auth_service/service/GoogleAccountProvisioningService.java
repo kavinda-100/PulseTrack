@@ -2,20 +2,22 @@ package com.kavinda.auth_service.service;
 
 import com.kavinda.auth_service.dtos.GoogleUserProfile;
 import com.kavinda.auth_service.dtos.UserProfileResponse;
-import com.kavinda.auth_service.entity.AppUser;
-import com.kavinda.auth_service.entity.OAuthAccount;
-import com.kavinda.auth_service.entity.OAuthProvider;
-import com.kavinda.auth_service.entity.UserStatus;
+import com.kavinda.auth_service.entity.*;
 import com.kavinda.auth_service.exceptions.types.ResourceNotFoundException;
 import com.kavinda.auth_service.repository.IAppUserRepository;
 import com.kavinda.auth_service.repository.IOAuthAccountRepository;
+import com.kavinda.auth_service.repository.IRoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +25,29 @@ public class GoogleAccountProvisioningService {
 
     private final IAppUserRepository appUserRepository;
     private final IOAuthAccountRepository oauthAccountRepository;
+    private final IRoleRepository roleRepository;
+
+    @Value("${app.authorization.bootstrap-super-admin-email}")
+    private String bootstrapSuperAdminEmail;
 
     @Transactional
     public UserProfileResponse findById(UUID userId) {
         AppUser user = appUserRepository
-                .findById(userId)
+                .findWithRolesAndPermissionsById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Authenticated user was not found"
                 ));
+
+        Set<String> roles = user.getRoles().stream()
+                .map(role -> role.getName().name())
+                .collect(Collectors.toUnmodifiableSet());
+
+        Set<String> permissions = user.getRoles().stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .map(permission ->
+                        permission.getName().authority()
+                )
+                .collect(Collectors.toUnmodifiableSet());
 
         return UserProfileResponse.builder()
                 .id(user.getId())
@@ -39,6 +56,8 @@ public class GoogleAccountProvisioningService {
                 .avatarUrl(user.getAvatarUrl())
                 .emailVerified(user.isEmailVerified())
                 .status(user.getStatus())
+                .roles(roles)
+                .permissions(permissions)
                 .lastLoginAt(user.getLastLoginAt())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
@@ -62,7 +81,10 @@ public class GoogleAccountProvisioningService {
 
             existingAccount.get().setProviderEmail(profile.email());
 
-            return appUserRepository.save(existingUser);
+            appUserRepository.save(existingUser);
+            oauthAccountRepository.save(existingAccount.get());
+
+            return loadWithAuthorities(existingUser.getId());
         }
 
         // If no existing OAuth account is found, check if a user with the same email exists
@@ -72,6 +94,10 @@ public class GoogleAccountProvisioningService {
 
         ensureUserCanLogin(user);
         updateUser(user, profile);
+
+        if (user.getRoles().isEmpty()) {
+            user.getRoles().add(resolveInitialRole(profile.email()));
+        }
 
         AppUser savedUser = appUserRepository.save(user);
 
@@ -84,10 +110,17 @@ public class GoogleAccountProvisioningService {
 
         oauthAccountRepository.save(account);
 
-        return savedUser;
+        return loadWithAuthorities(savedUser.getId());
     }
 
     private AppUser createUser(GoogleUserProfile profile) {
+        Role initialRole = resolveInitialRole(profile.email());
+        Role defaultRole = DefultRole();
+
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(initialRole);
+        roles.add(defaultRole);
+
         return AppUser.builder()
                 .email(profile.email())
                 .displayName(profile.displayName())
@@ -95,6 +128,7 @@ public class GoogleAccountProvisioningService {
                 .emailVerified(profile.emailVerified())
                 .status(UserStatus.ACTIVE)
                 .lastLoginAt(Instant.now())
+                .roles(roles)
                 .build();
     }
 
@@ -115,5 +149,45 @@ public class GoogleAccountProvisioningService {
                     "This user account is not active"
             );
         }
+    }
+
+    private Role resolveInitialRole(String email) {
+        RoleName roleName = isBootstrapSuperAdmin(email)
+                ? RoleName.SUPER_ADMIN
+                : RoleName.ADMIN;
+
+        return roleRepository
+                .findByName(roleName)
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                roleName + " role is not initialized"
+                        )
+                );
+    }
+
+    private Role DefultRole() {
+        return roleRepository
+                .findByName(RoleName.USER)
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                RoleName.USER + " role is not initialized"
+                        )
+                );
+    }
+
+    private boolean isBootstrapSuperAdmin(String email) {
+        return bootstrapSuperAdminEmail != null
+                && !bootstrapSuperAdminEmail.isBlank()
+                && bootstrapSuperAdminEmail.equalsIgnoreCase(email);
+    }
+
+    private AppUser loadWithAuthorities(UUID userId) {
+        return appUserRepository
+                .findWithRolesAndPermissionsById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User was not found"
+                        )
+                );
     }
 }

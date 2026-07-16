@@ -70,6 +70,9 @@ spring:
 app:
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
 
+  authorization:
+    bootstrap-super-admin-email: ${BOOTSTRAP_SUPER_ADMIN_EMAIL}
+
 logging:
   level:
     root: INFO

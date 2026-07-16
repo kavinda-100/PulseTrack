@@ -60,3 +60,74 @@
 2026-07-16T11:42:58.966+05:30  INFO 21448 --- [auth-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-07-16T11:42:58.967+05:30  INFO 21448 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-07-16T11:42:58.969+05:30  INFO 21448 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-07-16T13:47:54.975+05:30  INFO 46610 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Starting AuthServiceApplication using Java 25.0.2 with PID 46610 (/home/kavinda/Documents/code/java/PulseTrack/auth-service/target/classes started by kavinda in /home/kavinda/Documents/code/java/PulseTrack)
+2026-07-16T13:47:54.976+05:30 DEBUG 46610 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-07-16T13:47:54.977+05:30  INFO 46610 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : The following 1 profile is active: "local"
+2026-07-16T13:47:55.484+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-16T13:47:55.485+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-16T13:47:55.562+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 4 JPA repository interfaces.
+2026-07-16T13:47:55.599+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-16T13:47:55.600+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-07-16T13:47:55.609+05:30  INFO 46610 --- [auth-service] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.kavinda.auth_service.repository.IAppUserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-16T13:47:55.610+05:30  INFO 46610 --- [auth-service] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.kavinda.auth_service.repository.IOAuthAccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-16T13:47:55.610+05:30  INFO 46610 --- [auth-service] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.kavinda.auth_service.repository.IPermissionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-16T13:47:55.611+05:30  INFO 46610 --- [auth-service] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.kavinda.auth_service.repository.IRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-16T13:47:55.611+05:30  INFO 46610 --- [auth-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2026-07-16T13:47:56.068+05:30  INFO 46610 --- [auth-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8001 (http)
+2026-07-16T13:47:56.078+05:30  INFO 46610 --- [auth-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-16T13:47:56.078+05:30  INFO 46610 --- [auth-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-16T13:47:56.109+05:30  INFO 46610 --- [auth-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1107 ms
+2026-07-16T13:47:56.215+05:30 DEBUG 46610 --- [auth-service] [main] c.k.auth_service.filters.OAuth2Filter    : Filter 'OAuth2Filter' configured for use
+2026-07-16T13:47:56.296+05:30  INFO 46610 --- [auth-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-16T13:47:56.327+05:30  INFO 46610 --- [auth-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-16T13:47:56.512+05:30  INFO 46610 --- [auth-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-16T13:47:56.529+05:30  INFO 46610 --- [auth-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-16T13:47:56.612+05:30  INFO 46610 --- [auth-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1002d1c8
+2026-07-16T13:47:56.612+05:30  INFO 46610 --- [auth-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-16T13:47:56.646+05:30  INFO 46610 --- [auth-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/auth_service_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.10
+	Default catalog/schema: auth_service_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-16T13:47:57.143+05:30  INFO 46610 --- [auth-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-16T13:47:57.194+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.194+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk4vj92ux8a2eehds1mdvmks473" of relation "app_users" does not exist, skipping
+2026-07-16T13:47:57.200+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.200+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_oauth_provider_subject" of relation "oauth_accounts" does not exist, skipping
+2026-07-16T13:47:57.203+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.203+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_permissions_name" of relation "permissions" does not exist, skipping
+2026-07-16T13:47:57.207+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.207+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_role_permissions" of relation "role_permissions" does not exist, skipping
+2026-07-16T13:47:57.210+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.210+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_roles_name" of relation "roles" does not exist, skipping
+2026-07-16T13:47:57.213+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-07-16T13:47:57.213+05:30  WARN 46610 --- [auth-service] [main] org.hibernate.orm.jdbc.warn              : constraint "uk_user_roles" of relation "user_roles" does not exist, skipping
+2026-07-16T13:47:57.225+05:30  INFO 46610 --- [auth-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-16T13:47:57.266+05:30  INFO 46610 --- [auth-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-16T13:47:58.520+05:30  INFO 46610 --- [auth-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-07-16T13:47:58.572+05:30  INFO 46610 --- [auth-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8001 (http) with context path '/'
+2026-07-16T13:47:58.578+05:30  INFO 46610 --- [auth-service] [main] c.k.auth_service.AuthServiceApplication  : Started AuthServiceApplication in 3.939 seconds (process running for 4.197)
+2026-07-16T13:47:58.933+05:30  INFO 46610 --- [auth-service] [main] c.k.a.s.AuthorizationBootstrapService    : Roles and permissions initialized successfully
+2026-07-16T13:49:21.290+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-16T13:49:21.290+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-16T13:49:21.291+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-07-16T13:49:34.820+05:30 DEBUG 46610 --- [auth-service] [http-nio-8001-exec-4] er$RestTemplateWithNimbusDefaultTimeouts : HTTP GET https://www.googleapis.com/oauth2/v3/certs
+2026-07-16T13:49:34.821+05:30 DEBUG 46610 --- [auth-service] [http-nio-8001-exec-4] er$RestTemplateWithNimbusDefaultTimeouts : Accept=[text/plain, application/json, application/*+json, */*]
+2026-07-16T13:49:34.954+05:30 DEBUG 46610 --- [auth-service] [http-nio-8001-exec-4] er$RestTemplateWithNimbusDefaultTimeouts : Response 200 OK
+2026-07-16T13:49:34.955+05:30 DEBUG 46610 --- [auth-service] [http-nio-8001-exec-4] er$RestTemplateWithNimbusDefaultTimeouts : Reading to [java.lang.String] as "application/json;charset=UTF-8"
+2026-07-16T13:49:34.965+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-4] c.k.a.service.CustomOidcUserService      : Loading user for registrationId: google
+2026-07-16T13:49:35.139+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-4] c.k.a.service.CustomOidcUserService      : OidcUser loaded: Name: [102809876415035260683], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=rk1ilZFgE6CSLsBZLENvDw, sub=102809876415035260683, email_verified=true, iss=https://accounts.google.com, given_name=kavinda, nonce=gejmfdWKk2diurSDLszfiX5SKgcgr2pxfIpoWrFKpbA, picture=https://lh3.googleusercontent.com/a/ACg8ocIDFhd553aUKKSdFpIInMInNT5j5G9-9fLQKMDsXGdUc0EYUg=s96-c, aud=[3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com], azp=3000419121-052erk6k24ofdj7c423s3sd4m7j21nv1.apps.googleusercontent.com, name=kavinda rathnayake, exp=2026-07-16T09:19:34Z, family_name=rathnayake, iat=2026-07-16T08:19:34Z, email=kavinda.local.dev@gmail.com}]
+2026-07-16T13:49:35.192+05:30  INFO 46610 --- [auth-service] [http-nio-8001-exec-4] c.k.a.service.CustomOidcUserService      : Google user authenticated: userId=4497594d-52e0-4d0f-a621-ff4d61428132, roles=[USER, SUPER_ADMIN]
+2026-07-16T13:49:35.194+05:30 DEBUG 46610 --- [auth-service] [http-nio-8001-exec-4] .s.o.c.w.OAuth2LoginAuthenticationFilter : Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=com.kavinda.auth_service.security.AppOidcPrincipal@7e977f4f, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=dda45eaa-02b3-476a-b3ce-8aee281818a7], Granted Authorities=[project:read, SCOPE_https://www.googleapis.com/auth/userinfo.profile, role:read, analytics:read, user:update, role:assign, ROLE_SUPER_ADMIN, project:delete, profile:read, role:remove, SCOPE_openid, project:update, ROLE_USER, user:read, SCOPE_https://www.googleapis.com/auth/userinfo.email, user:disable, project:create, OIDC_USER, profile:update]]
+2026-07-16T13:52:54.561+05:30  INFO 46610 --- [auth-service] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-16T13:52:54.562+05:30  INFO 46610 --- [auth-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-16T13:52:54.572+05:30  INFO 46610 --- [auth-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-16T13:52:54.573+05:30  INFO 46610 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-16T13:52:54.575+05:30  INFO 46610 --- [auth-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
