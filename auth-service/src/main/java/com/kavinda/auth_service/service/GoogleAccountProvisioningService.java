@@ -1,6 +1,7 @@
 package com.kavinda.auth_service.service;
 
 import com.kavinda.auth_service.dtos.GoogleUserProfile;
+import com.kavinda.auth_service.dtos.UserProfileResponse;
 import com.kavinda.auth_service.entity.AppUser;
 import com.kavinda.auth_service.entity.OAuthAccount;
 import com.kavinda.auth_service.entity.OAuthProvider;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +25,24 @@ public class GoogleAccountProvisioningService {
     private final IOAuthAccountRepository oauthAccountRepository;
 
     @Transactional
-    public AppUser findGoogleUser(String providerSubject) {
-        return oauthAccountRepository
-                .findByProviderAndProviderSubject(
-                        OAuthProvider.GOOGLE,
-                        providerSubject
-                )
-                .map(OAuthAccount::getUser)
+    public UserProfileResponse findById(UUID userId) {
+        AppUser user = appUserRepository
+                .findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Authenticated user was not found"
                 ));
+
+        return UserProfileResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .displayName(user.getDisplayName())
+                .avatarUrl(user.getAvatarUrl())
+                .emailVerified(user.isEmailVerified())
+                .status(user.getStatus())
+                .lastLoginAt(user.getLastLoginAt())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
     }
 
     @Transactional

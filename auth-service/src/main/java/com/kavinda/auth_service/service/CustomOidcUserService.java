@@ -1,6 +1,8 @@
 package com.kavinda.auth_service.service;
 
 import com.kavinda.auth_service.dtos.GoogleUserProfile;
+import com.kavinda.auth_service.entity.OAuthProvider;
+import com.kavinda.auth_service.security.AppOidcPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -24,7 +26,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
     }
 
     @Override
-    public @Nullable OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
+    public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         log.info("Loading user for registrationId: {}", registrationId);
@@ -32,9 +34,23 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         OidcUser oidcUser = this.oidcUserService.loadUser(userRequest);
         log.info("OidcUser loaded: {}", oidcUser);
 
+        return switch (registrationId) {
+            case "google" -> provisionGoogleUser(oidcUser, registrationId);
+            case "microsoft" -> throw oauthFailure(
+                    "provider_not_implemented",
+                    "Microsoft authentication is not implemented"
+            );
+            default -> throw oauthFailure(
+                    "unsupported_provider",
+                    "Unsupported OAuth2 provider: " + registrationId
+            );
+        };
+    }
+
+    private AppOidcPrincipal provisionGoogleUser(OidcUser oidcUser, String registrationId) {
         String subject = oidcUser.getSubject();
         String email = oidcUser.getEmail();
-        String displayName = oidcUser.getFullName();
+        String displayName = resolveDisplayName(oidcUser);
         String picture = oidcUser.getPicture();
         Boolean emailVerifiedClaim = oidcUser.getEmailVerified();
 
@@ -43,36 +59,26 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
 
         checkClaims(oidcUser, registrationId);
 
-        switch (registrationId) {
-            case "google" -> {
-                GoogleUserProfile profile = new GoogleUserProfile(
-                        subject,
-                        email,
-                        displayName != null && !displayName.isBlank()
-                                ? displayName
-                                : email,
-                        picture,
-                        emailVerified
-                );
+        GoogleUserProfile profile = new GoogleUserProfile(
+                subject,
+                email,
+                displayName,
+                picture,
+                emailVerified
+        );
 
-                var localUser = googleAccountProvisioningService.provisionGoogleUser(profile);
+        var appUser = googleAccountProvisioningService.provisionGoogleUser(profile);
 
-                log.info(
-                        "Google user provisioned: userId={}, provider=GOOGLE",
-                        localUser.getId()
-                );
-            }
-            case "microsoft" -> {
-                // Handle Microsoft user provisioning here
-                log.info("Microsoft user provisioning is not implemented yet.");
-            }
-            default -> throw oauthFailure(
-                    "unsupported_provider",
-                    "Unsupported OAuth2 provider: " + registrationId
-            );
-        }
-
-        return oidcUser;
+        return new AppOidcPrincipal(
+                appUser.getId(),
+                appUser.getEmail(),
+                appUser.getDisplayName(),
+                OAuthProvider.GOOGLE,
+                oidcUser.getClaims(),
+                oidcUser.getAuthorities(),
+                oidcUser.getIdToken(),
+                oidcUser.getUserInfo()
+        );
     }
 
     private OAuth2AuthenticationException oauthFailure(
@@ -83,6 +89,16 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
                 new OAuth2Error(code),
                 message
         );
+    }
+
+    private String resolveDisplayName(OidcUser user) {
+        String fullName = user.getFullName();
+
+        if (fullName != null && !fullName.isBlank()) {
+            return fullName;
+        }
+
+        return user.getEmail();
     }
 
     private void checkClaims(OidcUser oidcUser, String registrationId) {
