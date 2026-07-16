@@ -2,6 +2,7 @@ package com.kavinda.auth_service.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +36,16 @@ public class HomeController {
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public String superAdminOperation() {
         return "Super Admin operation executed successfully.";
+    }
+
+    @GetMapping("/debug/principal")
+    public Map<String, String> principal(Authentication authentication) {
+        return Map.of(
+                "name", authentication.getName(),
+                "type", authentication
+                        .getPrincipal()
+                        .getClass()
+                        .getName()
+        );
     }
 }

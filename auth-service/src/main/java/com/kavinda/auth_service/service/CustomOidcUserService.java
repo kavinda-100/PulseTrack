@@ -60,8 +60,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         String picture = oidcUser.getPicture();
         Boolean emailVerifiedClaim = oidcUser.getEmailVerified();
 
-        boolean emailVerified =
-                Boolean.TRUE.equals(emailVerifiedClaim);
+        boolean emailVerified = Boolean.TRUE.equals(emailVerifiedClaim);
 
         checkClaims(oidcUser, registrationId);
 

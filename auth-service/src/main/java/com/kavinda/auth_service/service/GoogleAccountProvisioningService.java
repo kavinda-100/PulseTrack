@@ -10,6 +10,8 @@ import com.kavinda.auth_service.repository.IRoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -144,8 +146,16 @@ public class GoogleAccountProvisioningService {
     }
 
     private void ensureUserCanLogin(AppUser user) {
+        if (user.getStatus() == UserStatus.SUSPENDED) {
+            throw new OAuth2AuthenticationException(
+                    new OAuth2Error("account_suspended"),
+                    "This user account has been suspended"
+            );
+        }
+
         if (user.getStatus() != UserStatus.ACTIVE) {
-            throw new IllegalStateException(
+            throw new OAuth2AuthenticationException(
+                    new OAuth2Error("account_inactive"),
                     "This user account is not active"
             );
         }

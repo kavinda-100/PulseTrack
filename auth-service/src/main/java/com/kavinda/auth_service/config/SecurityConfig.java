@@ -56,6 +56,9 @@ public class SecurityConfig {
                                 .oidcUserService(customOidcUserService)
                         )
                         .defaultSuccessUrl(frontendUrl + "/auth/callback", true)
+                        .failureUrl(
+                                frontendUrl + "/auth/error"
+                        )
                 )
                 // logout configuration
                 .logout(logout -> logout
