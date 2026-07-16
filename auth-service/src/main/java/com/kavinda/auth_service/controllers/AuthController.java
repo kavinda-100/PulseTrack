@@ -5,6 +5,7 @@ import com.kavinda.auth_service.security.AppPrincipal;
 import com.kavinda.auth_service.service.GoogleAccountProvisioningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class AuthController {
     private final GoogleAccountProvisioningService googleAccountProvisioningService;
 
     @GetMapping("/me")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<UserProfileResponse> me(@AuthenticationPrincipal AppPrincipal principal) {
         UserProfileResponse response = googleAccountProvisioningService.findById(principal.userId());
 
