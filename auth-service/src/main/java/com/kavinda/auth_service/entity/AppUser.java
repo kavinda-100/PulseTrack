@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -54,6 +56,36 @@ public class AppUser {
 
     @Version
     private Long version;
+
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    nullable = false,
+                    foreignKey = @ForeignKey(
+                            name = "fk_user_roles_user"
+                    )
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id",
+                    nullable = false,
+                    foreignKey = @ForeignKey(
+                            name = "fk_user_roles_role"
+                    )
+            ),
+            uniqueConstraints = {
+                    @UniqueConstraint(
+                            name = "uk_user_roles",
+                            columnNames = {
+                                    "user_id",
+                                    "role_id"
+                            }
+                    )
+            }
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @PrePersist
     void prePersist() {

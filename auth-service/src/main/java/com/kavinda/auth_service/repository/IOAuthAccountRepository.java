@@ -15,4 +15,14 @@ public interface IOAuthAccountRepository extends JpaRepository<OAuthAccount, UUI
             OAuthProvider provider,
             String providerSubject
     );
+
+    @EntityGraph(attributePaths = {
+            "user",
+            "user.roles",
+            "user.roles.permissions"
+    })
+    Optional<OAuthAccount> findWithUserRolesAndPermissionsByProviderAndProviderSubject(
+            OAuthProvider provider,
+            String providerSubject
+    );
 }

@@ -1,5 +1,6 @@
 package com.kavinda.auth_service.exceptions;
 
+import com.kavinda.auth_service.exceptions.types.ForbiddenOperationException;
 import com.kavinda.auth_service.exceptions.types.ResourceConflictException;
 import com.kavinda.auth_service.exceptions.types.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,19 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    // Handles ForbiddenOperationException
+    @ExceptionHandler(ForbiddenOperationException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenOperation(ForbiddenOperationException exception) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.FORBIDDEN.getReasonPhrase(),
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
     // ------------------------------- default exception handlers -------------------------------
