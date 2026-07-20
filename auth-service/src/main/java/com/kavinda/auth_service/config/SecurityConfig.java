@@ -1,5 +1,6 @@
 package com.kavinda.auth_service.config;
 
+import com.kavinda.auth_service.service.auth.CustomOAuth2UserService;
 import com.kavinda.auth_service.service.auth.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CustomOidcUserService customOidcUserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Value("${app.frontend-url}")
     private String frontendUrl;
@@ -54,6 +56,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .oidcUserService(customOidcUserService)
+                                .userService(customOAuth2UserService)
                         )
                         .defaultSuccessUrl(frontendUrl + "/auth/callback", true)
                         .failureUrl(
