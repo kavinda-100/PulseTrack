@@ -1,8 +1,10 @@
 package com.kavinda.auth_service.controllers;
 
+import com.kavinda.auth_service.security.AppPrincipal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,7 @@ public class HomeController {
                 "timestamp", Instant.now().toString(),
                 "version", "1.0.0",
                 "Google OAuth2 Login URL", "/oauth2/authorization/google",
+                "GitHub OAuth2 Login URL", "/oauth2/authorization/github",
                 "LogOut URL", "/logout",
                 "User Info URL", "/api/v1/auth/me",
                 "Auth Status URL", "/api/v1/auth/status"
@@ -43,13 +46,18 @@ public class HomeController {
     }
 
     @GetMapping("/debug/principal")
-    public Map<String, String> principal(Authentication authentication) {
+    public Map<String, Object> principal(Authentication authentication) {
+        AppPrincipal principal = (AppPrincipal) authentication.getPrincipal();
+
         return Map.of(
-                "name", authentication.getName(),
-                "type", authentication
-                        .getPrincipal()
-                        .getClass()
-                        .getName()
+                "authenticationName", authentication.getName(),
+                "principalType", principal.getClass().getName(),
+                "userId", principal.userId(),
+                "provider", principal.provider(),
+                "authorities", principal.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .sorted()
+                        .toList()
         );
     }
 }

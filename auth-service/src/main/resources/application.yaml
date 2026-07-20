@@ -67,6 +67,15 @@ spring:
               - openid
               - profile
               - email
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8001/login/oauth2/code/github"
+            scope:
+              - read:user
+              - user:email
+
         provider:
           google:
             issuer-uri: https://accounts.google.com
@@ -76,6 +85,10 @@ app:
 
   authorization:
     bootstrap-super-admin-email: ${BOOTSTRAP_SUPER_ADMIN_EMAIL}
+
+  github:
+    emails-uri: https://api.github.com/user/emails
+    api-version: ${GITHUB_API_VERSION:2026-03-10}
 
 logging:
   level:
