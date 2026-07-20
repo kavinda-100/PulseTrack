@@ -10,18 +10,22 @@ import java.util.UUID;
 
 public interface IOAuthAccountRepository extends JpaRepository<OAuthAccount, UUID> {
 
-    @EntityGraph(attributePaths = "user")
-    Optional<OAuthAccount> findByProviderAndProviderSubject(
-            OAuthProvider provider,
-            String providerSubject
-    );
-
     @EntityGraph(attributePaths = {
             "user",
             "user.roles",
             "user.roles.permissions"
     })
-    Optional<OAuthAccount> findWithUserRolesAndPermissionsByProviderAndProviderSubject(
+    Optional<OAuthAccount> findWithUserAuthoritiesByProviderAndProviderSubject(
+            OAuthProvider provider,
+            String providerSubject
+    );
+
+    Optional<OAuthAccount> findByUserIdAndProvider(
+            UUID userId,
+            OAuthProvider provider
+    );
+
+    boolean existsByProviderAndProviderSubject(
             OAuthProvider provider,
             String providerSubject
     );

@@ -1,6 +1,6 @@
 package com.kavinda.auth_service.config;
 
-import com.kavinda.auth_service.service.AuthorizationBootstrapService;
+import com.kavinda.auth_service.service.auth.AuthorizationBootstrapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;

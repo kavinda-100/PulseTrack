@@ -1,6 +1,9 @@
-package com.kavinda.auth_service.service;
+package com.kavinda.auth_service.service.auth;
 
-import com.kavinda.auth_service.entity.*;
+import com.kavinda.auth_service.entity.Permission;
+import com.kavinda.auth_service.entity.PermissionName;
+import com.kavinda.auth_service.entity.Role;
+import com.kavinda.auth_service.entity.RoleName;
 import com.kavinda.auth_service.repository.IPermissionRepository;
 import com.kavinda.auth_service.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;

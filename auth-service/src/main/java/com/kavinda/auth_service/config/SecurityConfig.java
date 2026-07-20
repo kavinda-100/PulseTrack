@@ -1,6 +1,6 @@
 package com.kavinda.auth_service.config;
 
-import com.kavinda.auth_service.service.CustomOidcUserService;
+import com.kavinda.auth_service.service.auth.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
