@@ -5,10 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serial;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public final class AppOAuth2Principal implements OAuth2User, AppPrincipal {
 
@@ -31,12 +28,16 @@ public final class AppOAuth2Principal implements OAuth2User, AppPrincipal {
             Map<String, Object> attributes,
             Collection<? extends GrantedAuthority> authorities
     ) {
-        this.userId = userId;
-        this.email = email;
-        this.displayName = displayName;
-        this.provider = provider;
-        this.attributes = Map.copyOf(attributes);
-        this.authorities = List.copyOf(authorities);
+        /*
+         * GitHub May return null for email and displayName if the user has not made them public.
+         * Other OAuth may provide all attributes.
+         * */
+        this.userId = Objects.requireNonNull(userId);
+        this.email = Objects.requireNonNull(email);
+        this.displayName = Objects.requireNonNull(displayName);
+        this.provider = Objects.requireNonNull(provider);
+        this.attributes = Collections.unmodifiableMap(new HashMap<>(Objects.requireNonNull(attributes)));
+        this.authorities = List.copyOf(Objects.requireNonNull(authorities));
     }
 
     @Override
