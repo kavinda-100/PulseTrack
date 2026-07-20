@@ -28,14 +28,18 @@ public class HomeController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminOperation() {
-        return "Admin operation executed successfully.";
+    public ResponseEntity<Map<String, Object>> adminOperation() {
+        return ResponseEntity.ok(Map.of(
+                "message", "Admin operation executed successfully."
+        ));
     }
 
     @GetMapping("/super-admin")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public String superAdminOperation() {
-        return "Super Admin operation executed successfully.";
+    public ResponseEntity<Map<String, Object>> superAdminOperation() {
+        return ResponseEntity.ok(Map.of(
+                "message", "Super Admin operation executed successfully."
+        ));
     }
 
     @GetMapping("/debug/principal")
