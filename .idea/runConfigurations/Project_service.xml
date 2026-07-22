@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Project-service" type="Application" factoryName="Application">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/project-service/.env" />
+    </option>
+    <option name="MAIN_CLASS_NAME" value="com.kavinda.project_service.ProjectServiceApplication" />
+    <module name="project-service" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

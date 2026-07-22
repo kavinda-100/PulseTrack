@@ -23,6 +23,30 @@ services:
     networks:
       - pulse-track-network
 
+  project-db:
+    image: postgres:17-alpine
+    container_name: pulse-track-project-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: project_service_user
+      POSTGRES_PASSWORD: project_service_password
+      POSTGRES_DB: project_service_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - project_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U project_service_user -d project_service_db"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pulse-track-network
+
   adminer:
     image: adminer:latest
     container_name: pulse-track-adminer
@@ -30,7 +54,7 @@ services:
     ports:
       - "9000:8080"
     depends_on:
-      auth-db:
+      project-db:
         condition: service_healthy
     networks:
       - pulse-track-network
@@ -50,7 +74,7 @@ services:
     volumes:
       - redis_session_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -73,6 +97,7 @@ services:
 
 volumes:
   auth_db_data:
+  project_db_data:
   redis_session_data:
   redis_insight_data:
 

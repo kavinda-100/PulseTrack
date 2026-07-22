@@ -1,3 +1,50 @@
+server:
+  port: ${SERVER_PORT:8002}
+
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+
 spring:
   application:
     name: project-service
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5434/project_service_db}
+    username: ${DATABASE_USERNAME:project_service_user}
+    password: ${DATABASE_PASSWORD:project_service_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    open-in-view: false
+    show-sql: ${JPA_SHOW_SQL:true}
+
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      timeout: ${REDIS_TIMEOUT:2s}
+      connect-timeout: ${REDIS_CONNECT_TIMEOUT:2s}
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+
+logging:
+  level:
+    root: INFO
+    com.kavinda: DEBUG
+    org.springframework.web: INFO
+
+  file:
+    name: ${LOG_FILE:logs/project-service.log}
